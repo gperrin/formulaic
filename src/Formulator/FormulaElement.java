@@ -22,14 +22,14 @@ public class FormulaElement {
 			String token = tokenizer.nextToken();
 			if(token != " " && token != "/t"){
 				char[] checkToken = token.toCharArray();
-				if(checkToken[0] > 47 && checkToken[0] < 58){   // first char is a digit
+				if(Character.isDigit(checkToken[0])){   // first char is a digit
 					
 					int last = checkToken.length - 1;
-					if(!(checkToken[last] > 47 && checkToken[last] < 58)){    // last char is not a digit
+					if(Character.isLetter(checkToken[last])){    // last char is not a digit
 						String token1 = new String();
 						String token2 = new String();
 						for(int i = 0;i<=last;i++){
-							if(checkToken[i] > 47 && checkToken[i] < 58){
+							if(Character.isDigit(checkToken[i]) || checkToken[i] == '.'){
 								token1+=checkToken[i];
 							}
 							else{
