@@ -4,9 +4,11 @@ public class VariableElement extends FormulaElement {
 
 	private String name;
 	private double value;
+	private boolean grounded;
 	
 	public VariableElement(String val){
 		name = val;
+		grounded = false;
 	}
 	
 	public boolean needPar(){
@@ -28,4 +30,21 @@ public class VariableElement extends FormulaElement {
 	public String toString(){
 		return name;
 	}
+	
+	public void	setVariableValue(String	varName, double	value){
+		if(this.name.equals(varName)){
+			this.value = value;
+			grounded = true;
+		}
+	}
+	
+	public boolean isFullyGrounded(){
+		return this.grounded;
+	}
+	
+	public double evaluate(){
+		return value;
+	}
 }
+
+

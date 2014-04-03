@@ -18,4 +18,16 @@ public class SineFunctionElement extends FunctionElement {
 		String res = "sin(" + var + ")";
 		return res;
 	}
+	
+	public void	setVariableValue(String	varName, double	value){
+		arguments.get(0).setVariableValue(varName,value);
+	}
+	
+	public boolean isFullyGrounded(){
+		return arguments.get(0).isFullyGrounded();
+	}
+	
+	public double evaluate(){
+		return Math.sin(arguments.get(0).evaluate());
+	}
 }

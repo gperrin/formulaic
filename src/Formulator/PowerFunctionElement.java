@@ -13,4 +13,9 @@ public class PowerFunctionElement extends FunctionElement {
 		
 		return str;
 	}
+	
+	public double evaluate(){
+		return Math.pow(arguments.get(0).evaluate(),arguments.get(1).evaluate());
+	}
+	
 }

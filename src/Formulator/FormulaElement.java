@@ -5,7 +5,22 @@ import java.util.Vector;
 
 public class FormulaElement {
 	
+	public void	setVariableValue(String	varName, double	value){
+		// method useless here, but need declaration to be use
+		// it will be redefine in every subclasses
+	}
 	
+	public boolean isFullyGrounded(){
+		// method useless here, but need declaration to be use
+		// it will be redefine in every subclasses
+		return true;
+	}
+	
+	public double evaluate(){
+		// method useless here, but need declaration to be use
+		// it will be redefine in every subclasses
+		return 0;
+	}
 	
 	public boolean needPar(){
 		return true;
@@ -185,6 +200,7 @@ public class FormulaElement {
 					p.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
 					tokens.remove(i-1);   // ^ 
 					tokens.add(i-1,p);
+					i--;
 				}
 			}
 		}
@@ -200,6 +216,7 @@ public class FormulaElement {
 					d.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
 					tokens.remove(i-1);   //    /
 					tokens.add(i-1,d);
+					i--;
 				}
 			}
 			else{
@@ -207,6 +224,7 @@ public class FormulaElement {
 					MultipleFunctionElement m = new MultipleFunctionElement();
 					m.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i-1));
 					tokens.add(i-1,m);
+					i--;
 				}
 			}
 		}
@@ -222,12 +240,14 @@ public class FormulaElement {
 					p.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
 					tokens.remove(i-1);   //    +
 					tokens.add(i-1,p);
+					i--;
 				}
 				else if(ch == '-'){
 					MinusFunctionElement m = new MinusFunctionElement();
 					m.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
 					tokens.remove(i-1);   //    +
 					tokens.add(i-1,m);
+					i--;
 				}
 			}
 		}
@@ -239,14 +259,27 @@ public class FormulaElement {
 
 	public static void main(String[] args){
 		
-		String str1 = "2X+Y/X^2";
-		System.out.println(parseFormula(str1).toString());
+		String str1 = "2.5X+Y/X^2";
+		FormulaElement f1 = parseFormula(str1);
+		f1.setVariableValue("X", 1);
+		f1.setVariableValue("Y", 1);
 		
-		String str2 = "cos(3X)/2^sin(X)";
-		System.out.println(parseFormula(str2).toString());
+		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
+	
 		
-		String str3 = "(X+2)(X–(Y^3+7)+cos(2^X))";
-		System.out.println(parseFormula(str3).toString());
+		String str2 = "cos(3X)";
+		f1 = parseFormula(str2);
+		f1.setVariableValue("X", 1);
+		f1.setVariableValue("Y", 1);
+		
+		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
+		
+		String str3 = "(X+2)(X-(Y^3+7)+cos(X))";
+		f1 = parseFormula(str3);
+		f1.setVariableValue("X", 0);
+		f1.setVariableValue("Y", 1);
+		
+		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
 		
 	}
 }

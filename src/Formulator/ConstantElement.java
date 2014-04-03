@@ -26,4 +26,17 @@ public class ConstantElement extends FormulaElement {
 		}
 		return res;	
 	}
+	
+	public void	setVariableValue(String	varName, double	value){
+		//do nothing
+	}
+	
+	public boolean isFullyGrounded(){
+		return true;
+	}
+	
+	public double evaluate(){
+		return value;
+	}
+
 }

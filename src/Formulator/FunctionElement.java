@@ -16,5 +16,14 @@ public class FunctionElement extends FormulaElement {
 	public List<FormulaElement> getArguments(){
 		return arguments;
 	}
+	
+	public void	setVariableValue(String	varName, double	value){
+		arguments.get(0).setVariableValue(varName,value);
+		arguments.get(1).setVariableValue(varName,value);
+	}
+	
+	public boolean isFullyGrounded(){
+		return (arguments.get(0).isFullyGrounded() && arguments.get(1).isFullyGrounded());
+	}
 
 }

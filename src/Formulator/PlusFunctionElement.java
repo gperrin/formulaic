@@ -9,4 +9,8 @@ public class PlusFunctionElement extends FunctionElement {
 		
 		return str;
 	}
+	
+	public double evaluate(){
+		return (arguments.get(0).evaluate() + arguments.get(1).evaluate());
+	}
 }
