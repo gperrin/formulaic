@@ -7,10 +7,10 @@ public class FunctionElement extends FormulaElement {
 	
 	protected List<FormulaElement> arguments = new ArrayList<FormulaElement>();
 	
-	public void addArgument(FormulaElement arg1, FormulaElement arg2){
-		arguments.clear();
-		arguments.add(arg1);
-		arguments.add(arg2);
+	public void addArgument(FormulaElement... arg){
+		for(FormulaElement f: arg){
+			arguments.add(f);
+		}
 	}
 	
 	public List<FormulaElement> getArguments(){
@@ -18,12 +18,18 @@ public class FunctionElement extends FormulaElement {
 	}
 	
 	public void	setVariableValue(String	varName, double	value){
-		arguments.get(0).setVariableValue(varName,value);
-		arguments.get(1).setVariableValue(varName,value);
+		for(int i = 0; i < arguments.size();i++){
+			arguments.get(i).setVariableValue(varName,value);
+		}
 	}
 	
 	public boolean isFullyGrounded(){
-		return (arguments.get(0).isFullyGrounded() && arguments.get(1).isFullyGrounded());
+		for(int i = 0; i < arguments.size();i++){
+			if(!arguments.get(i).isFullyGrounded()){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

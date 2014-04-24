@@ -2,6 +2,12 @@ package Formulator;
 
 public class DivideFunctionElement extends FunctionElement {
 	
+	public void addArgument(FormulaElement arg1, FormulaElement arg2){
+		arguments.clear();
+		arguments.add(arg1);
+		arguments.add(arg2);
+	}
+	
 	public String toString(){
 		String str = new String();
 		

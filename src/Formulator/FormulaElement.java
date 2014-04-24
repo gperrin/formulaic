@@ -22,6 +22,7 @@ public class FormulaElement {
 		return 0;
 	}
 	
+	
 	public boolean needPar(){
 		return true;
 	}
@@ -264,22 +265,22 @@ public class FormulaElement {
 		f1.setVariableValue("X", 1);
 		f1.setVariableValue("Y", 1);
 		
-		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
+		if(f1.isFullyGrounded()) System.out.println(f1.toString());
 	
 		
-		String str2 = "cos(3X)";
+		String str2 = "cos(X)";
 		f1 = parseFormula(str2);
-		f1.setVariableValue("X", 1);
+		f1.setVariableValue("X", 0);
 		f1.setVariableValue("Y", 1);
 		
-		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
+		if(f1.isFullyGrounded()) System.out.println(f1.toString());
 		
 		String str3 = "(X+2)(X-(Y^3+7)+cos(X))";
 		f1 = parseFormula(str3);
 		f1.setVariableValue("X", 0);
 		f1.setVariableValue("Y", 1);
 		
-		if(f1.isFullyGrounded()) System.out.println(f1.evaluate());
+		if(f1.isFullyGrounded()) System.out.println(f1.toString());
 		
 	}
 }

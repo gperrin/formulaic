@@ -1,5 +1,8 @@
 package Formulator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultipleFunctionElement extends FunctionElement {
 	
 	
@@ -10,57 +13,100 @@ public class MultipleFunctionElement extends FunctionElement {
 	public String toString(){
 		String str = new String();
 		
-		FormulaElement arg1 =  super.arguments.get(0);
-		FormulaElement arg2 =  super.arguments.get(1);
+		List<FormulaElement> c = new ArrayList<FormulaElement>();
+		List<FormulaElement> v = new ArrayList<FormulaElement>();
+		List<FormulaElement> f = new ArrayList<FormulaElement>();
+
+		for(FormulaElement fe: arguments){
+			if(fe instanceof ConstantElement) c.add(fe);
+			if(fe instanceof VariableElement) v.add(fe);
+			if(fe instanceof FunctionElement) f.add(fe);
+		}
 		
-		if(arg1 instanceof ConstantElement){
-			
-			if(arg2 instanceof ConstantElement){
-				double dbl = ((ConstantElement) arg1).getValue() * ((ConstantElement) arg2).getValue();
-				if(dbl%1 == 0) {
-					str = Integer.toString((int)dbl);
-				}
-				else {
-					Double d = new Double(dbl);
-					str = d.toString();
-				}
+		if(c.size() > 0){
+			str += c.get(0).toString();
+			for(int i = 1; i < c.size();i++){
+				str += "*" + c.get(i).toString();
 			}
-			else{
-				if(arg2.needPar()){
-					str = arg1.toString() + "(" + arg2.toString() + ")";
-				}
-				else{
-					str = arg1.toString() + arg2.toString() ;
+			
+			if(v.size() > 0){
+				for(int i = 0; i < v.size();i++){
+					str += "*" + v.get(i).toString();
 				}
 				
+				if(f.size() > 0){
+					boolean hadPar = false;
+					for(int i = 0; i < f.size();i++){
+						if (f.get(i).needPar()){
+							str += "(" + f.get(i).toString() + ")";
+							hadPar = true;
+						}
+						else {
+							if(hadPar) {
+								str += f.get(i).toString();
+							}
+							else{
+								str += "*" + f.get(i).toString();
+							}
+							hadPar = false;
+						}
+					}
+				}
 			}
 		}
 		else{
-			if(arg2 instanceof ConstantElement){
-				if(arg1.needPar()){
-					str = arg2.toString() + "(" + arg1.toString() + ")";
+			if(v.size() > 0){
+				str += v.get(0).toString();
+				for(int i = 1; i < v.size();i++){
+					str += "*" + v.get(i).toString();
 				}
-				else{
-					str = arg2.toString() + arg1.toString() ;
+				
+				if(f.size() > 0){
+					boolean hadPar = false;
+					for(int i = 0; i < f.size();i++){
+						if (f.get(i).needPar()){
+							str += "(" + f.get(i).toString() + ")";
+							hadPar = true;
+						}
+						else {
+							if(hadPar) {
+								str += f.get(i).toString();
+							}
+							else{
+								str += "*" + f.get(i).toString();
+							}
+							hadPar = false;
+						}
+					}
 				}
 			}
 			else{
-				if(!arg1.needPar() && !arg2.needPar()){
-					str = arg1.toString() + "*" + arg2.toString(); 
-				}
-				else{
-					if(arg1.needPar()){
-						str = "(" + arg1.toString() +")";
+				if(f.size() > 0){
+					boolean hadPar = false;
+					
+					if (f.get(0).needPar()){
+						str += "(" + f.get(0).toString() + ")";
+						hadPar = true;
 					}
-					else{
-						str = arg1.toString();
+					else {
+						hadPar = false;
+						str += f.get(0).toString();
 					}
 					
-					if(arg2.needPar()){
-						str += "(" + arg2.toString() +")";
-					}
-					else{
-						str += arg2.toString();
+					for(int i = 1; i < f.size();i++){
+						if (f.get(i).needPar()){
+							str += "(" + f.get(i).toString() + ")";
+							hadPar = true;
+						}
+						else {
+							if(hadPar) {
+								str += f.get(i).toString();
+							}
+							else{
+								str += "*" + f.get(i).toString();
+							}
+							hadPar = false;
+						}
 					}
 				}
 			}
@@ -70,6 +116,14 @@ public class MultipleFunctionElement extends FunctionElement {
 	}
 	
 	public double evaluate(){
-		return (arguments.get(0).evaluate() * arguments.get(1).evaluate());
+		double a;
+		
+		a = super.arguments.get(0).evaluate();
+		
+		for(int i = 1; i < arguments.size();i++){
+			a = a * super.arguments.get(i).evaluate();
+		}
+		
+		return a;
 	}
 }
