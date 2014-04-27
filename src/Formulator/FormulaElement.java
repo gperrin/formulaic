@@ -258,29 +258,5 @@ public class FormulaElement {
 		return formula;
 	}
 
-	public static void main(String[] args){
-		
-		String str1 = "2.5X+Y/X^2";
-		FormulaElement f1 = parseFormula(str1);
-		f1.setVariableValue("X", 1);
-		f1.setVariableValue("Y", 1);
-		
-		if(f1.isFullyGrounded()) System.out.println(f1.toString());
-	
-		
-		String str2 = "cos(X)";
-		f1 = parseFormula(str2);
-		f1.setVariableValue("X", 0);
-		f1.setVariableValue("Y", 1);
-		
-		if(f1.isFullyGrounded()) System.out.println(f1.toString());
-		
-		String str3 = "(X+2)(X-(Y^3+7)+cos(X))";
-		f1 = parseFormula(str3);
-		f1.setVariableValue("X", 0);
-		f1.setVariableValue("Y", 1);
-		
-		if(f1.isFullyGrounded()) System.out.println(f1.toString());
-		
-	}
+
 }
