@@ -94,7 +94,7 @@ public class Calculator {
 									
 				}
 				else if(checkToken[0] == '('){
-					if(Character.isDigit(nextCheckToken[0])){
+					if(Character.isDigit(nextCheckToken[0]) || nextCheckToken[0] == '-'){
 						f.setVariableValue("all", Double.parseDouble(tokens.get(i+1)));
 					}
 					else if (tokens.get(i+2).equals("(")){
