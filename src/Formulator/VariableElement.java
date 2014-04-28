@@ -32,7 +32,7 @@ public class VariableElement extends FormulaElement {
 	}
 	
 	public void	setVariableValue(String	varName, double	value){
-		if(this.name.equals(varName)){
+		if(this.name.equals(varName) || varName.equals("all")){
 			this.value = value;
 			grounded = true;
 		}

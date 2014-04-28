@@ -17,6 +17,10 @@ public class Calculator {
 		System.out.println("To store a formula: store f X+2");
 	}
 	
+	public static FormulaElement getFormula(int i){
+		return (FormulaElement) formulas.get(i).get(1);
+	}
+	
 	public static Integer findFormula(String name){
 		for(int i = 0; i< formulas.size();i++){
 			Vector<Object> v = formulas.get(i);
@@ -50,6 +54,68 @@ public class Calculator {
 			}
 		}
 		
+	}
+	
+	private static double evaluateFormula(List<String> inst){
+		StringTokenizer t = new StringTokenizer(inst.get(1), " (=)", true);
+		String formulaName = t.nextToken();
+		
+		Vector<String> tokens = new Vector<String>();
+		
+		while(t.hasMoreTokens()){
+			tokens.add(t.nextToken());
+		}
+		
+		int index = findFormula(formulaName);
+		FormulaElement f = (FormulaElement) formulas.get(index).get(1);
+		
+		if(index != -1){
+			
+			for(int i = 0; i < tokens.size() - 1;i++){
+				char[] checkToken = tokens.get(i).toCharArray();
+				char[] nextCheckToken = tokens.get(i+1).toCharArray();
+				if(checkToken[0] == '='){
+					if(Character.isDigit(nextCheckToken[0])){
+						f.setVariableValue(tokens.get(i-1),Double.parseDouble(tokens.get(i+1)));
+					}
+					else{
+						List<String> newInst = new ArrayList<String>();
+						String str = new String();
+						int j = i+1;
+						newInst.add("evaluate");
+						while(!tokens.get(j).equals(")")){
+							str += tokens.remove(j);
+						}
+						str += tokens.remove(j);
+						newInst.add(str);
+						
+						f.setVariableValue(tokens.get(i-1),evaluateFormula(newInst));
+					}
+									
+				}
+				else if(checkToken[0] == '('){
+					if(Character.isDigit(nextCheckToken[0])){
+						f.setVariableValue("all", Double.parseDouble(tokens.get(i+1)));
+					}
+					else if (tokens.get(i+2).equals("(")){
+						List<String> newInst = new ArrayList<String>();
+						String str = new String();
+						int j = i+1;
+						newInst.add("evaluate");
+						while(!tokens.get(j).equals(")")){
+							str += tokens.remove(j);
+						}
+						str += tokens.remove(j);
+						newInst.add(str);
+						
+						f.setVariableValue("all",evaluateFormula(newInst));
+					}
+				}
+			}
+		}
+		
+		if(f.isFullyGrounded()) return f.evaluate();
+		else return 0;
 	}
 
 	public static void parseInstruction(List<String> inst){
@@ -87,6 +153,9 @@ public class Calculator {
 				break;
 			case "store":
 				storeFormula(inst);
+				break;
+			case "evaluate":
+				System.out.println(evaluateFormula(inst));
 				break;
 			default:
 				break;

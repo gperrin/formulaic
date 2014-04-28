@@ -81,9 +81,15 @@ public class FormulaElement {
 			else{
 				if(Character.isLetter(a)){
 					if(!currentToken.equals("cos")  && !currentToken.equals("sin")){
-						VariableElement v = new VariableElement(currentToken);
-						tokens.remove(i);
-						tokens.add(i,v);
+						if(Calculator.findFormula(currentToken) != -1){
+							tokens.remove(i);
+							tokens.add(i,Calculator.getFormula(Calculator.findFormula(currentToken)));
+						}
+						else{
+							VariableElement v = new VariableElement(currentToken);
+							tokens.remove(i);
+							tokens.add(i,v);
+						}
 					}
 				}
 			}
