@@ -30,4 +30,29 @@ public class SineFunctionElement extends FunctionElement {
 	public double evaluate(){
 		return Math.sin(arguments.get(0).evaluate());
 	}
+	
+	public FormulaElement derivate(){
+		CosineFunctionElement cos = new CosineFunctionElement();
+		MultipleFunctionElement m = new MultipleFunctionElement();
+		
+		// f = sin(a)      f' = a' * cos(a)
+		cos.addArgument(this.arguments.get(0));
+		FormulaElement a1 = this.arguments.get(0).derivate();
+		
+		if(a1 instanceof ConstantElement){
+			ConstantElement cons = (ConstantElement) a1;
+			if(cons.getValue() == 0){
+				return cons;
+			}
+			if(cons.getValue() == 1){
+			
+				return cos;
+			}
+		}
+		
+		
+		m.addArgument(this.arguments.get(0).derivate(),cos);
+		
+		return m;
+	}
 }

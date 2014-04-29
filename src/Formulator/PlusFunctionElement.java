@@ -28,4 +28,34 @@ public class PlusFunctionElement extends FunctionElement {
 		return a;
 	}
 	
+	public FormulaElement derivate(){
+		PlusFunctionElement add = new PlusFunctionElement();
+		
+		// f = a + b      f' = a' + b'
+		
+		FormulaElement a1 = this.arguments.get(0).derivate();
+		FormulaElement b1 = this.arguments.get(1).derivate();
+		
+		if(a1 instanceof ConstantElement){
+			ConstantElement cons = (ConstantElement) a1;
+			if(b1 instanceof ConstantElement){
+				ConstantElement cons1 = new ConstantElement(cons.getValue() + ((ConstantElement) b1).getValue());
+				return cons1;
+			}
+			if(cons.getValue() == 0){
+				return b1;
+			}
+			
+		}
+		if(b1 instanceof ConstantElement){
+			ConstantElement cons = (ConstantElement) b1;
+			if(cons.getValue() == 0){
+				return a1;
+			}
+		}
+		add.addArgument(a1,b1);
+		
+		return add;
+	}
+	
 }

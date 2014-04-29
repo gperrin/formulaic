@@ -45,6 +45,10 @@ public class VariableElement extends FormulaElement {
 	public double evaluate(){
 		return value;
 	}
+	
+	public FormulaElement derivate(){
+		return new ConstantElement(1);
+	}
 }
 
 

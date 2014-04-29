@@ -22,6 +22,12 @@ public class FormulaElement {
 		return 0;
 	}
 	
+	public FormulaElement derivate(){
+		// method useless here, but need declaration to be use
+		// it will be redefine in every subclasses
+		return this;
+	}
+	
 	
 	public boolean needPar(){
 		return true;
@@ -30,7 +36,7 @@ public class FormulaElement {
 	public static FormulaElement parseFormula(String text){
 		FormulaElement formula = new FormulaElement();
 		
-		StringTokenizer tokenizer = new StringTokenizer(text, "+-/^() \t", true); 
+		StringTokenizer tokenizer = new StringTokenizer(text, "*+-/^() \t", true); 
 		
 		Vector<Object> tokens = new Vector<Object>();
 		
@@ -222,6 +228,13 @@ public class FormulaElement {
 					DivideFunctionElement d = new DivideFunctionElement();
 					d.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
 					tokens.remove(i-1);   //    /
+					tokens.add(i-1,d);
+					i--;
+				}
+				if(ch == '*'){
+					MultipleFunctionElement d = new MultipleFunctionElement();
+					d.addArgument((FormulaElement)tokens.remove(i-1),(FormulaElement)tokens.remove(i));
+					tokens.remove(i-1);   //    *
 					tokens.add(i-1,d);
 					i--;
 				}

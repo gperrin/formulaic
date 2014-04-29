@@ -53,6 +53,24 @@ public class MultipleFunctionElement extends FunctionElement {
 					}
 				}
 			}
+			else if(f.size() > 0){
+				boolean hadPar = false;
+				for(int i = 0; i < f.size();i++){
+					if (f.get(i).needPar()){
+						str += "(" + f.get(i).toString() + ")";
+						hadPar = true;
+					}
+					else {
+						if(hadPar) {
+							str += f.get(i).toString();
+						}
+						else{
+							str += "*" + f.get(i).toString();
+						}
+						hadPar = false;
+					}
+				}
+			}
 		}
 		else{
 			if(v.size() > 0){
@@ -125,5 +143,22 @@ public class MultipleFunctionElement extends FunctionElement {
 		}
 		
 		return a;
+	}
+	
+	public FormulaElement derivate(){
+		PlusFunctionElement add = new PlusFunctionElement();
+		MultipleFunctionElement m1 = new MultipleFunctionElement();
+		MultipleFunctionElement m2 = new MultipleFunctionElement();
+		
+		// f = ab      f' = a'b + ab'
+		m1.addArgument(this.arguments.get(0).derivate());
+		m1.addArgument(this.arguments.get(1));
+		
+		m2.addArgument(this.arguments.get(0));
+		m2.addArgument(this.arguments.get(1).derivate());
+		
+		add.addArgument(m1,m2);
+		
+		return add;
 	}
 }

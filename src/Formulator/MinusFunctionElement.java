@@ -33,4 +33,14 @@ public class MinusFunctionElement extends FunctionElement {
 		
 		return a;
 	}
+	
+	public FormulaElement derivate(){
+		MinusFunctionElement add = new MinusFunctionElement();
+		
+		// f = a - b      f' = a' - b'
+		
+		add.addArgument(this.arguments.get(0).derivate(),this.arguments.get(1).derivate());
+		
+		return add;
+	}
 }

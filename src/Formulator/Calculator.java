@@ -40,7 +40,7 @@ public class Calculator {
 		return -1;
 	}
 	
-	private static void save(){
+	public static void save(){
         FileChooser.createAndShowGUI();
 	}
 	
@@ -92,6 +92,27 @@ public class Calculator {
 		 }
 		 
 		 reader.close();
+	}
+	
+	public static void derivate(List<String> inst){
+		String str = inst.get(1);
+		char[] ch = str.toCharArray();
+		str = "";
+		for(int i=0; i<ch.length;i++){
+			if(ch[i] != ' ') str += ch[i];
+		}
+		int index = findFormula(str);
+		if(index != -1){
+			Vector<Object> v = formulas.get(index);
+			Vector<Object> newV = new Vector<Object>();
+			
+			newV.add(v.get(0) + "'");
+			FormulaElement f = (FormulaElement) v.get(1);
+			FormulaElement f2 = f.derivate();
+			System.out.println(f2.toString());
+			newV.add(f2);
+			formulas.add(newV);
+		}
 	}
 	
 	private static double evaluateFormula(List<String> inst){
@@ -197,6 +218,13 @@ public class Calculator {
 				break;
 			case "files":
 				save();
+				break;
+			case "derivate":
+				derivate(inst);
+				break;
+			case "graph":
+				@SuppressWarnings("unused")
+				Window ui = new Window(600,400);
 				break;
 			case "exit":
 				running = false;
