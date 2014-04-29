@@ -15,7 +15,14 @@ public class PowerFunctionElement extends FunctionElement {
 	public String toString(){
 		String str = new String();
 		
-		str = super.arguments.get(0).toString() + "^" + super.arguments.get(1).toString();
+		if(super.arguments.get(0).needPar()){
+			str = "(" + super.arguments.get(0).toString() + ")";
+		}
+		else{
+			str = super.arguments.get(0).toString();
+		}
+		
+		str +=  "^" + super.arguments.get(1).toString();
 		
 		return str;
 	}

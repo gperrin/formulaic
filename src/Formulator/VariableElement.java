@@ -23,6 +23,10 @@ public class VariableElement extends FormulaElement {
 		return value;
 	}
 	
+	public boolean onlyConstants(){
+		return false;
+	}
+	
 	public void setValue(double val){
 		value = val;
 	}

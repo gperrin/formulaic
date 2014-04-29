@@ -31,5 +31,13 @@ public class FunctionElement extends FormulaElement {
 		}
 		return true;
 	}
+	
+	public boolean onlyConstants(){
+		boolean result = true;
+		for(FormulaElement f: arguments){
+			result = result && f.onlyConstants();
+		}
+		return result;
+	}
 
 }

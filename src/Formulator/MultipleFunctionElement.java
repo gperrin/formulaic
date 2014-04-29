@@ -153,13 +153,54 @@ public class MultipleFunctionElement extends FunctionElement {
 		
 		// f = ab      f' = a'b + ab'
 		
-		m1.addArgument(this.arguments.get(0));
-		m1.addArgument(this.arguments.get(1));
+		FormulaElement a = this.arguments.get(0).derivate();
 		
-		m2.addArgument(this.arguments.get(0));
-		m2.addArgument(this.arguments.get(1).derivate());
+		if(a.onlyConstants()) {
+			m1.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			m1.addArgument(a);
+		}
 		
-		add.addArgument(m1,m2);
+		a = this.arguments.get(1);
+		if(a.onlyConstants()) {
+			m1.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			m1.addArgument(a);
+		}
+		
+		a = this.arguments.get(0);
+		if(a.onlyConstants()) {
+			m2.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			m2.addArgument(a);
+		}
+		
+		a = this.arguments.get(1).derivate();
+		if(a.onlyConstants()) {
+			m2.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			m2.addArgument(a);
+		}
+		
+		a = m1;
+		if(a.onlyConstants()) {
+			add.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			add.addArgument(a);
+		}
+		
+		a = m2;
+		if(a.onlyConstants()) {
+			add.addArgument(new ConstantElement(a.evaluate()));
+		}
+		else{
+			add.addArgument(a);
+		}
 		
 		return add;
 	}

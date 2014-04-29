@@ -33,6 +33,12 @@ public class FormulaElement {
 		return true;
 	}
 	
+	public boolean onlyConstants(){
+		// method useless here, but need declaration to be use
+		// it will be redefine in every subclasses
+		return false;
+	}
+	
 	public static FormulaElement parseFormula(String text){
 		FormulaElement formula = new FormulaElement();
 		

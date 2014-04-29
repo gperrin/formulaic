@@ -42,5 +42,9 @@ public class ConstantElement extends FormulaElement {
 	public FormulaElement derivate(){
 		return new ConstantElement(0);
 	}
+	
+	public boolean onlyConstants(){
+		return true;
+	}
 
 }
