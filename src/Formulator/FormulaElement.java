@@ -36,7 +36,7 @@ public class FormulaElement {
 		
 		while(tokenizer.hasMoreTokens()){
 			String token = tokenizer.nextToken();
-			if(token != " " && token != "/t"){
+			if(!token.equals(" ") && !token.equals("\t")){
 				char[] checkToken = token.toCharArray();
 				if(Character.isDigit(checkToken[0])){   // first char is a digit
 					

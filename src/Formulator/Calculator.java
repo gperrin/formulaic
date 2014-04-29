@@ -1,6 +1,11 @@
 package Formulator;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,6 +20,9 @@ public class Calculator {
 	
 	public static void printHelp(){
 		System.out.println("To store a formula: store f X+2");
+		System.out.println("To evaluate a formula: evaluate f(2) or evaluate f(X=2 Y=g(3))");
+		System.out.println("To save and load files: files");
+		System.out.println("To exit: exit");
 	}
 	
 	public static FormulaElement getFormula(int i){
@@ -30,6 +38,10 @@ public class Calculator {
 		}
 		
 		return -1;
+	}
+	
+	private static void save(){
+        FileChooser.createAndShowGUI();
 	}
 	
 	private static void storeFormula(List<String> inst) throws IOException {
@@ -54,6 +66,32 @@ public class Calculator {
 			}
 		}
 		
+	}
+	
+	public static void saveFile(File file) throws IOException{
+		 String text = new String();
+		 for(Vector<Object> v: formulas){
+			 FormulaElement f = (FormulaElement) v.get(1);
+			 text += "store " + v.get(0) + " " + f.toString() + "\n";
+		 }
+		 BufferedWriter output = new BufferedWriter(new FileWriter(file));
+         output.write(text);
+         output.close();
+	}
+	
+	public static void openFile(File file) throws IOException, FileNotFoundException{
+		 BufferedReader reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
+		 String line;
+		 while ((line = reader.readLine()) != null){
+			 System.out.println(line);
+			 List<String> inst = new ArrayList<String>();
+			 inst.add(line);
+				
+			 parseInstruction(inst);
+			 storeFormula(inst);
+		 }
+		 
+		 reader.close();
 	}
 	
 	private static double evaluateFormula(List<String> inst){
@@ -156,6 +194,12 @@ public class Calculator {
 				break;
 			case "evaluate":
 				System.out.println(evaluateFormula(inst));
+				break;
+			case "files":
+				save();
+				break;
+			case "exit":
+				running = false;
 				break;
 			default:
 				break;
