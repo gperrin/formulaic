@@ -146,12 +146,14 @@ public class MultipleFunctionElement extends FunctionElement {
 	}
 	
 	public FormulaElement derivate(){
+		
 		PlusFunctionElement add = new PlusFunctionElement();
 		MultipleFunctionElement m1 = new MultipleFunctionElement();
 		MultipleFunctionElement m2 = new MultipleFunctionElement();
 		
 		// f = ab      f' = a'b + ab'
-		m1.addArgument(this.arguments.get(0).derivate());
+		
+		m1.addArgument(this.arguments.get(0));
 		m1.addArgument(this.arguments.get(1));
 		
 		m2.addArgument(this.arguments.get(0));
