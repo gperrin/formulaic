@@ -37,7 +37,7 @@ public class PowerFunctionElement extends FunctionElement {
 			MultipleFunctionElement m1 = new MultipleFunctionElement();
 			MultipleFunctionElement m2 = new MultipleFunctionElement();
 			
-			ConstantElement c = (ConstantElement)this.arguments.get(0);
+			ConstantElement c = (ConstantElement)this.arguments.get(1);
 			ConstantElement c2 = new ConstantElement(c.getValue() - 1);
 			
 			// f = a^b      f' = b * a' * a^(b-1)  with b an integer

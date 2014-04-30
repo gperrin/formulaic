@@ -19,9 +19,12 @@ public class Calculator {
 	static BufferedReader br;
 	
 	public static void printHelp(){
+		System.out.println("To print this message: help");
 		System.out.println("To store a formula: store f X+2");
 		System.out.println("To evaluate a formula: evaluate f(2) or evaluate f(X=2 Y=g(3))");
+		System.out.println("To differentiate a formula: differentiate f");
 		System.out.println("To save and load files: files");
+		System.out.println("To open the graphic interface: interface");
 		System.out.println("To exit: exit");
 	}
 	
@@ -219,10 +222,10 @@ public class Calculator {
 			case "files":
 				save();
 				break;
-			case "derivate":
+			case "differentiate":
 				derivate(inst);
 				break;
-			case "graph":
+			case "interface":
 				@SuppressWarnings("unused")
 				Window ui = new Window(600,400);
 				break;
