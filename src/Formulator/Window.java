@@ -18,6 +18,10 @@ public class Window extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	//FIRST WINDOW 
+	//
+	//
 	//Frame
 	JFrame window = new JFrame();
 	//Panels
@@ -52,6 +56,43 @@ public class Window extends JFrame {
 	Dimension dimpanel=new Dimension(400,400);
 	Dimension dimeq=new Dimension(400,100);
 	Dimension dimvar=new Dimension(50,25);
+	
+	
+	
+	//GRAPH WINDOW
+	//
+	//
+	//
+	//
+	//frame
+	JFrame windowGraph = new JFrame();
+	//Panels
+	JPanel graphFrame=new JPanel();
+	JPanel boundariesX=new JPanel();
+	JPanel equationGraph=new JPanel();
+	JPanel buttonPane=new JPanel();
+	JPanel step=new JPanel();
+	//Labels
+	JLabel stepLabel=new JLabel();
+	JLabel Xfrom=new JLabel();
+	JLabel Xto=new JLabel();
+	JLabel eqVal=new JLabel();
+	//Textfields
+	JTextField Xmin=new JTextField();
+	JTextField Xmax=new JTextField();
+	JTextField eq=new JTextField();
+	JTextField stepSize=new JTextField();
+	//Buttons
+	JButton newGraph=new JButton("New Graph");
+	JButton add=new JButton("Add To Graph");
+	JButton draw=new JButton("Draw");
+	JButton saveGraph=new JButton("Save");
+	
+	//Graph
+	NewGraph graphObject;
+	
+	
+	
 
 	public Window(int width, int height) {
 		
@@ -238,39 +279,72 @@ public class Window extends JFrame {
 		
 	}
 	
+	class NewGraphListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Xmin.setText("");
+			Xmax.setText("");
+			eq.setText("");
+		    stepSize.setText("");
+			graphObject= new NewGraph();
+		}
+	}
+	
+	class AddToGraphListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String str=eq.getText();
+			String strMin=Xmin.getText();
+			String strMax=Xmax.getText();
+			String strStep=stepSize.getText();
+			
+			Double valueOfXmin= Double.valueOf(strMin);
+			Double valueOfXmax= Double.valueOf(strMax);
+			Double valueOfStep= Double.valueOf(strStep);
+			Triple limits= new Triple(valueOfXmin,valueOfXmax,valueOfStep);
+			FormulaElement form=FormulaElement.parseFormula(str);
+			graphObject.addFormulaToGraph(form);
+			graphObject.addLimitSet(limits);
+			
+			 Xmin.setText("");
+			 Xmax.setText("");
+			 eq.setText("");
+			 stepSize.setText("");
+			
+			
+			
+		
+		}
+	}
+	
+	class DrawGraphListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			graphObject.drawGraph();
+			Xmin.setText("");
+			Xmax.setText("");
+			eq.setText("");
+			stepSize.setText("");
+			
+		}
+	}
+	
+	class SaveGraphListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			graphObject.save();
+			
+		}
+	}
+	
 	public void GraphWindow(int width,int height) {
-		JFrame window = new JFrame();
 		
+
 		
-				
-		//Panels
-		JPanel graphFrame=new JPanel();
-		JPanel boundariesX=new JPanel();
-		JPanel boundariesY=new JPanel();
-		JPanel step=new JPanel();
-		
-		//Labels
-		JLabel Xfrom=new JLabel();
 		Xfrom.setText("X from :");
-		JLabel Yfrom=new JLabel();
-		Yfrom.setText("Y from :");
-		JLabel Xto=new JLabel();
 		Xto.setText("To :");
-		JLabel Yto=new JLabel();
-		Yto.setText("To :");
-		JLabel stepLabel=new JLabel();
 		stepLabel.setText("Step size :");
+		eqVal.setText("Equation :");
 		
-		//Textfields
-		JTextField Xmin=new JTextField();
-		JTextField Xmax=new JTextField();
-		JTextField Ymin=new JTextField();
-		JTextField Ymax=new JTextField();
-		JTextField stepSize=new JTextField();
+	
 		
-		//Buttons
-		JButton draw=new JButton("Draw");
-		
+	
 		//Window Conf.
 		window.setTitle("Graph Drawer");
 		window.setSize(width,height);
@@ -278,10 +352,14 @@ public class Window extends JFrame {
 		
 		//Layouts
 		graphFrame.setLayout(new GridLayout(4,1));
+		graphFrame.add(equationGraph);
 		graphFrame.add(boundariesX);
-		graphFrame.add(boundariesY);
 		graphFrame.add(step);
-		graphFrame.add(draw);
+		graphFrame.add(buttonPane);
+		
+		equationGraph.setLayout(new GridLayout(1,2));
+		equationGraph.add(eqVal);
+		equationGraph.add(eq);
 		
 		boundariesX.setLayout(new GridLayout(1,4));
 		boundariesX.add(Xfrom);
@@ -289,15 +367,22 @@ public class Window extends JFrame {
 		boundariesX.add(Xto);
 		boundariesX.add(Xmax);
 		
-		boundariesY.setLayout(new GridLayout(1,4));
-		boundariesY.add(Yfrom);
-		boundariesY.add(Ymin);
-		boundariesY.add(Yto);
-		boundariesY.add(Ymax);
 		
 		step.setLayout(new GridLayout(1,2));
 		step.add(stepLabel);
 		step.add(stepSize);
+		
+		buttonPane.setLayout(new GridLayout(1,4));
+		buttonPane.add(newGraph);
+		buttonPane.add(add);
+		buttonPane.add(draw);
+		buttonPane.add(saveGraph);
+		
+		//ActionListeners
+		newGraph.addActionListener(new NewGraphListener());
+		add.addActionListener(new AddToGraphListener());
+		draw.addActionListener(new DrawGraphListener());
+		saveGraph.addActionListener(new SaveGraphListener());
 		
 		//Close Op & Visibility
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -306,5 +391,3 @@ public class Window extends JFrame {
 	}
 	
 }
-
-
